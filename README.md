@@ -1,6 +1,18 @@
 # Python Basketball Stats Tool
 
-Console-based basketball team statistics app that divides a group of players into teams and presents statistics about each team.
+Demo console-based basketball team statistics app that divides a group of players into teams and presents statistics about each team.
+
+Features
+
+- Uses various Python data types to store and manipulate data into organized team structures.
+- Cleans data from `constants.py` without changing the original data.
+   - Converts string data into integers or floats.
+   - Converts string data into Boolean values.
+   - Converts string data into lists of strings.
+- Organizes player data evenly into teams ensuring each team has the same number of experienced and inexperienced players.
+- Provides Dunder Main usage examples in `app.py` entry point and `dm.py` module.
+- Presents data in a nice readable format using extra spaces and line breaks ('\n') to break up lines.
+- User is re-prompted with the main menu until they decide to "Quit the program".
 
 ## Run the app
 
