@@ -3,6 +3,9 @@ import os
 import sys
 import string
 import pprint
+
+# Initialize global private variable for balanced teams since
+# it's used in multiple functions.
 _balanced_teams = {}
 
 
