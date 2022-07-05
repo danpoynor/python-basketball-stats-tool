@@ -3,6 +3,7 @@ import os
 import sys
 import string
 import pprint
+import unittest
 
 # Initialize global private variable for balanced teams since
 # it's used in multiple functions.
@@ -221,3 +222,114 @@ def devtime(data):
     print("=" * 79)
     pp.pprint(data)
     print("=" * 79)
+
+
+# pylint: disable=missing-class-docstring
+class Tests(unittest.TestCase):
+    # pylint: disable=missing-function-docstring
+
+    def setUp(self):
+        # Set up test data
+        self.teams = ["Team C", "Team D", "Team A", "Team B"]
+        self.players = [
+            {
+                'name': 'Karl Saygan',
+                'guardians': 'Heather Bledsoe',
+                'experience': 'YES',
+                'height': '42 inches'
+            },
+            {
+                'name': 'Matt Gill',
+                'guardians': 'Charles Gill and Sylvia Gill',
+                'experience': 'NO',
+                'height': '40 inches'
+            },
+            {
+                'name': 'Sammy Adams',
+                'guardians': 'Jeff Adams and Gary Adams',
+                'experience': 'NO',
+                'height': '45 inches'
+            },
+            {
+                'name': 'Chloe Alaska',
+                'guardians': 'David Alaska and Jamie Alaska',
+                'experience': 'NO',
+                'height': '47 inches'
+            },
+            {
+                'name': 'Bill Bon',
+                'guardians': 'Sara Bon and Jenny Bon',
+                'experience': 'YES',
+                'height': '43 inches'
+            },
+            {
+                'name': 'Joe Kavalier',
+                'guardians': 'Sam Kavalier and Elaine Kavalier',
+                'experience': 'YES',
+                'height': '39 inches'
+            },
+            {
+                'name': 'Phillip Helm',
+                'guardians': 'Thomas Helm and Eva Jones',
+                'experience': 'NO',
+                'height': '44 inches'
+            },
+            {
+                'name': 'Les Clay',
+                'guardians': 'Wynonna Brown',
+                'experience': 'YES',
+                'height': '42 inches'
+            }
+        ]
+
+    def test_create_string_from_list_of_lists(self):
+        string_to_test = create_string_from_list_of_lists(
+            [['item 1', 'item 2'], ['item 3', 'item 4']])
+        self.assertIs(type(string_to_test), str)
+        self.assertEqual(string_to_test, "item 1, item 2, item 3, item 4")
+
+    def test_cleaned_players(self):
+        cleaned = clean_players(self.players)
+        self.assertIs(type(cleaned), list)
+        self.assertEqual(len(cleaned), 8)
+        self.assertEqual(cleaned[0]['name'], 'Karl Saygan')
+        self.assertEqual(cleaned[0]['guardians'], ['Heather Bledsoe'])
+        self.assertTrue(cleaned[0]['experience'])
+        self.assertEqual(cleaned[0]['height'], 42)
+
+    def test_calculate_avg_height(self):
+        players = clean_players(self.players)
+        average_height = calculate_avg_height(*players)
+        self.assertIs(type(average_height), float)
+        self.assertEqual(average_height, 42.75)
+
+    def test_balance_teams(self):
+        cleaned_players = clean_players(self.players)
+        balanced_teams = balance_teams(self.teams, cleaned_players)
+        self.assertIs(type(balanced_teams), dict)
+        self.assertEqual(len(balanced_teams), 4)
+        # devtime(balanced_teams)
+        self.assertEqual(balanced_teams['Team A'][0]['name'], 'Bill Bon')
+        self.assertEqual(balanced_teams['Team A'][1]['name'], 'Sammy Adams')
+        self.assertEqual(balanced_teams['Team D'][0]['name'], 'Joe Kavalier')
+        self.assertEqual(balanced_teams['Team D'][1]['name'], 'Chloe Alaska')
+
+
+class ToDoTests(unittest.TestCase):
+    # Grouping these separately so they can be run separately and appear in the
+    # command line output after running the other tests.
+    # pylint: disable=missing-function-docstring
+
+    @unittest.skip("TODO: When there's more time, test this")
+    def test_show_menu_options(self):
+        self.assertEqual(show_menu_options(_main_menu_options), 'a')
+
+    @unittest.skip("TODO: When there's more time, test this")
+    def test_show_team_stats(self):
+        self.assertEqual(show_team_stats('A'), None)
+        self.assertEqual(show_team_stats('B'), None)
+
+
+# Prevent automatic execution of the script when imported or called directly
+if __name__ == "__main__":
+    unittest.main()
